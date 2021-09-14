@@ -31,23 +31,50 @@ int Index(String S, String T, int pos)
 //KMP算法
 
 
-
-
 //通过计算返回子串的next数组，next数组存放对于子串字符冲突后，需要移动j的位置;
 //next数组的定义，next[i]为1～i-1的子串的使得前k-1个字符等于后k-1个字符的的最大的K
 void get_next(String T, int* next)
 {
     next[1]=0;
-    int i=1, j=0;
-    while(i<T[0])//此处T[0]表示串T的长度
+    int i=1,k=0;
+    while(i<T[0])
     {
-        if(j==0 || T(i)==T(j))//T[i]表示后缀的单个字符，T[j]表示前缀的单个字符
+        if(k==0 || T[i]==T[k]) i++,k++,next[i]=k;
+        else k=next[k];
+    }
+}
+
+//接下来是KMP算法主体
+//返回子串T在主串S中的第pos个字符之后的位置，若不存在，则函数返回0
+//T非空，1<= pos <=StrLength(S)
+int Index_KMP(String S, String T, int pos)
+{
+    int next[255];
+    int i=pos, j=1;
+    while(i<=S[0] && j<=T[0])
+    {
+        if(j==0 || S[i]=T[j]) i++,j++;
+        else j=next[j];
+    }
+    if(j>T[0]) return i-T[0];
+    else return 0;
+}
+
+
+//KMP算法还有改进空间，即对于next函数的改进
+void get_nextval(String T, int* nextval)
+{
+    nextval[1]=0;
+    int i=1,k=0;
+    while(i<T[0])
+    {
+        if(k==0 || T[i]=T[k])
         {
             i++;
-            j++;
-            next[i]=j;
+            k++;
+            if(T[i]!=T[k]) nextval[i]=k;
+            else nextval[i]=nextval[k];
         }
-        else j=next[j];//若字符不相同，则j值回溯
-
+        else k=nextval[k];
     }
 }
