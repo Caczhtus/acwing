@@ -41,3 +41,21 @@ void PostOrderTraverse(BiTree T)
     PostOrderTraverse(T->rchild);
     printf("%c", T->data);
 }
+
+
+//按照前序输入二叉树中节点的值
+//#表示空树，构造二叉链表表示二叉树T
+void CreateBiTree(BiTree T)
+{
+    TELemType ch;
+    scanf("%c", &ch);
+    if(ch=='#') T=NULL;
+    else
+    {
+        T=(BiTree)malloc(sizeof BiTNode);
+        if(!T) exit(OVERFLOW);
+        T->data=ch;
+        CreateBiTree(T->lchild);
+        CreateBiTree(T->rchild);
+    }
+}
