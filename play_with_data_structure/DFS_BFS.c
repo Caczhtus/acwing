@@ -49,3 +49,67 @@ void DFSTraverse(GraphAdjList GL)
         if(!visited[i])
             DFS(GL, i);
 }
+
+
+//邻接矩阵的广度遍历算法
+void BFSTraverse(MGraph G)
+{
+    Queue Q;
+    for(int i=0;i<G.numVertexes;i++) visited[i]=FALSE;
+    InitQueue(&Q);
+    for(int i=0;i<G.numVertexes;i++)
+    {
+        if(!visited[i])
+        {
+            visited[i]=TRUE;
+            printf("%c", G.vexs[i]);
+            EnQueue(&Q, i);
+            while(!QueueEmpty(Q))
+            {
+                DeQueue(&Q, &i);
+                for(int j=0;j<G.numVertexes;j++)
+                {
+                    if(G.arc[i][j]==1 && !visited[j])
+                    {
+                        visited[j]=TRUE;
+                        printf("%c", G.vexs[j]);
+                        EnQueue(&Q, j);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//邻接表的广度遍历算法
+void BFSTraverse(GraphAdjList GL)
+{
+    EdgeNode* p;
+    Queue Q;
+    for(int i=0;i<G.numVertexes;i++) visited[i]=FALSE;
+    InitQueue(&Q);
+    for(int i=0;i<G.numVertexes;i++)
+    {
+        if(!visited[i])
+        {
+            visited[i]=TRUE;
+            printf("%c", GL->adjList[i].data);
+            EnQueue(&Q, i);
+            while(!QueueEmpty(Q))
+            {
+                DeQueue(&Q,&i);
+                p=GL->adjList[i].firstedge;
+                while(p)
+                {
+                    if(!visited[p->adjvex])
+                    {
+                        visited[p->adjvex]=TRUE;
+                        printf("%c ",GL->adjList[p->adjvex].data);
+                        EnQueue(&Q, p->adjvex);
+                    }
+                    p=p->next;
+                }
+            }
+        }
+    }
+}
